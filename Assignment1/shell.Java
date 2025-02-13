@@ -5,7 +5,7 @@ Public Class RubiksCube(){
   private int numTurn = 0;
   private int size = 2;
   public void initializeCube(){
-    //sets the cubeState to a solved Cube with a nested for loop. Also sets unused space to a value of -1.
+    //sets the cubeState to a solved Cube with a nested for loop. Also sets unused space to a value of 0.
   }
   public void cycle(int hold){
     if (hold == 0){
