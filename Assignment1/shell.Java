@@ -1,12 +1,4 @@
 import static java.lang.Math.*;
-This statement allows direct access to static members of the Math class, such as abs(), sqrt(), pow(), etc., without the need to write Math.methodName(). For example, instead of Math.sqrt(25), one could simply write sqrt(25).
-Alternatively, specific methods can be statically imported:
-Java
-
-import static java.lang.Math.sqrt;
-This imports only the sqrt method, and it can be used directly without the class name.
-Using import java.lang.Math.* or import static java.lang.Math.methodName is optional. The Math class is always accessible in Java programs without any import statement, due to it being part of the java.lang package.
-
 Public Class RubiksCube(){
   private int cubeState[6][8];
   //stores an array of numbers to track the sides of the rubiks cube.
