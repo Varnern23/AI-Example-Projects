@@ -65,6 +65,7 @@ Public Class RubiksCube(){
   [005500]
   [006600](back face)
   [006600]*/
+//for example 1s might be white squares and so on for every number not including 0.
   
 
   
