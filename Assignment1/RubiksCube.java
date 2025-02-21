@@ -1,9 +1,11 @@
+//Nathan Varner so and so
 import static java.lang.Math.*;
 Public Class RubiksCube(){
   public int cubeState[8][6];
-  //stores an array of numbers to track the sides of the rubiks cube.
+  //This is a pretty brute force way of jandling this prompt that sacrifices scalability for efficiency. aka leet code answers that you go was that really neccesary when you coulda just used a loop but they are still in the top 1% of time efficency but on a lower scale.
   public int numTurn = 0;
   public void initializeCube(){
+    //creates the cube model and gives it values
         cubeState[0] = [0, 0, 1, 1, 0, 0];
         cubeState[1] = [0, 0, 1, 1, 0, 0];
         cubeState[2] = [2, 2, 3, 3, 4, 4];
@@ -14,6 +16,7 @@ Public Class RubiksCube(){
         cubeState[7] = [0, 0, 6, 6, 0, 0];
   }
   public void cycle(int hold){
+    //is in charges of cycling the sides that dont actually change any values just rotate them along the same face.
     if (hold == 0){
         int temp = cubeState[0][2];
         cubeState[0][2] = cubeState[0][3];
@@ -61,7 +64,7 @@ Public Class RubiksCube(){
         cubeState[2][3] = temp;
 
     }
-    // make more conditionals depending on which type of the 6 possible turns we make. I mean six by the way because a clockwise turn of the bottom half leads to the same result as a counter clockwise turn on the top half.
+    // made conditionals depending on which type of the 6 possible turns we make. I mean six by the way because a clockwise turn of the bottom half leads to the same result as a counter clockwise turn on the top half.
   }
   public boolean checkSolve(){
     int cubeCheck[8][6];
@@ -154,6 +157,7 @@ Public Class RubiksCube(){
     this.cubeCheck();
     //this rotate is a bit different as we have to rotate vertically like previous rotates on the 2nd and 5th columns and horizontally on the 2nd and 5th so that all faces turn properly and also cycle is once again called to cycle the front face.
   }
+//pretty self explanatory stuff theres 6 rotation types and all of them were brute forced.
   public void rotateFrontC(){
     int tempOne = cubeState[1][2];
     int tempTwo = cubeState[1][3];
