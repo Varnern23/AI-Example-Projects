@@ -1,1 +1,190 @@
+import static java.lang.Math.*;
+Public Class RubiksCube(){
+  public int cubeState[8][6];
+  //stores an array of numbers to track the sides of the rubiks cube.
+  public int numTurn = 0;
+  public void initializeCube(){
+        cubeState[0] = [0, 0, 1, 1, 0, 0];
+        cubeState[1] = [0, 0, 1, 1, 0, 0];
+        cubeState[2] = [2, 2, 3, 3, 4, 4];
+        cubeState[3] = [2, 2, 3, 3, 4, 4];
+        cubeState[4] = [0, 0, 5, 5, 0, 0];
+        cubeState[5] = [0, 0, 5, 5, 0, 0];
+        cubeState[6] = [0, 0, 6, 6, 0, 0];
+        cubeState[7] = [0, 0, 6, 6, 0, 0];
+  }
+  public void cycle(int hold){
+    if (hold == 0){
+        int temp = cubeState[0][2];
+        cubeState[0][2] = cubeState[0][3];
+        cubeState[0][3] = cubeState[1][3];
+        cubeState[1][3] = cubeState[1][2];
+        cubeState[1][2] = temp;
+      // cycles the values representing the face of the cube that is just cycling the same four numbers/colors.
+    } 
+    else if (hold == 1){
+        int temp = cubeState[4][2];
+        cubeState[4][2] = cubeState[4][3];
+        cubeState[4][3] = cubeState[5][3];
+        cubeState[5][3] = cubeState[5][2];
+        cubeState[5][2] = temp;
 
+    }
+    else if (hold == 2){
+        int temp = cubeState[2][0];
+        cubeState[2][0] = cubeState[3][0];
+        cubeState[3][0] = cubeState[3][1];
+        cubeState[3][1] = cubeState[2][1];
+        cubeState[2][1] = temp;
+
+    }
+    else if (hold == 3){
+        int temp = cubeState[2][4];
+        cubeState[2][4] = cubeState[2][5];
+        cubeState[2][5] = cubeState[3][5];
+        cubeState[3][5] = cubeState[3][4];
+        cubeState[3][4] = temp;
+
+    }
+    else if (hold == 4){
+        int temp = cubeState[2][2];
+        cubeState[2][2] = cubeState[2][3];
+        cubeState[2][3] = cubeState[3][3];
+        cubeState[3][3] = cubeState[3][2];
+        cubeState[3][2] = temp;
+    }
+    else if (hold == 5){
+        int temp = cubeState[2][2];
+        cubeState[2][2] = cubeState[3][2];
+        cubeState[3][2] = cubeState[3][3];
+        cubeState[3][3] = cubeState[2][3];
+        cubeState[2][3] = temp;
+
+    }
+    // make more conditionals depending on which type of the 6 possible turns we make. I mean six by the way because a clockwise turn of the bottom half leads to the same result as a counter clockwise turn on the top half.
+  }
+  public boolean checkSolve(){
+    int cubeCheck[8][6];
+    boolean result = true;
+    for (int i = 0; i < 8; i++){
+        for (int j = 0; j < 6; j++){
+            if (cubeCheck[i][j] != cubeState[i][j]){
+                result = false;
+            }
+        }
+    }
+    if (result == true){
+        System.out.println("The Cube is Solved!");
+    }
+    return result;
+  }
+  public void rotateTopC(){
+    int tempOne = cubeState[6][2];
+    int tempTwo = cubeState[6][3];
+    cubeState[6][2] = cubeState[2][4];
+    cubeState[6][3] = cubeState[2][5];
+    cubeState[2][4] = cubeState[2][2];
+    cubeState[2][5] = cubeState[2][3];
+    cubeState[2][2] = cubeState[2][0];
+    cubeState[2][3] = cubeState[2][1];
+    cubeState[2][0] = tempOne;
+    cubeState[2][1] = tempTwo;
+    this.cycle(0);
+    this.cubeCheck();
+    //moves over every int in the array over to the right by two except the right face and back face where we take the right face values to the back face and the back face to the left face which we check via the use of a conditional checking the index. It then calls the cycle function.
+    //Then calls checkSolve.
+  }
+  public void rotateBottomC(){
+    int tempOne = cubeState[7][2];
+    int tempTwo = cubeState[7][3];
+    cubeState[7][2] = cubeState[3][4];
+    cubeState[7][3] = cubeState[3][5];
+    cubeState[3][4] = cubeState[3][2];
+    cubeState[3][5] = cubeState[3][3];
+    cubeState[3][2] = cubeState[3][0];
+    cubeState[3][3] = cubeState[3][1];
+    cubeState[3][0] = tempOne;
+    cubeState[3][1] = tempTwo;
+    this.cycle(1);
+    this.cubeCheck();
+    //does the same thing as rotateTopC but calls a different integer for the cycle call and is used on the 4th row(index 3) and 8th row of the cube modeling array.
+  }
+  public void rotateLeftC(){
+    int tempOne = cubeState[6][2];
+    int tempTwo = cubeState[7][2];
+    cubeState[6][2] = cubeState[4][2];
+    cubeState[7][2] = cubeState[5][2];
+    cubeState[4][2] = cubeState[2][2];
+    cubeState[5][2] = cubeState[3][2];
+    cubeState[3][2] = cubeState[1][2];
+    cubeState[2][2] = cubeState[0][2];
+    cubeState[1][2] = tempTwo;
+    cubeState[0][2] = tempOne;
+    this.cycle(2);
+    this.cubeCheck();
+    //same system of rotation but no exceptions with this one that calls cycle with a certain value, but we are rotating column 3(index 2) by decreasing the row index by 2 and we once again use conditionals to see where we need to wrap around.
+  }
+  public void rotateRightC(){
+    int tempOne = cubeState[6][3];
+    int tempTwo = cubeState[7][3];
+    cubeState[6][3] = cubeState[4][3];
+    cubeState[7][3] = cubeState[5][3];
+    cubeState[4][3] = cubeState[2][3];
+    cubeState[5][3] = cubeState[3][3];
+    cubeState[3][3] = cubeState[1][3];
+    cubeState[2][3] = cubeState[0][3];
+    cubeState[1][3] = tempTwo;
+    cubeState[0][3] = tempOne;
+    this.cycle(3);
+    this.cubeCheck();
+    //same as rotateLeftUp but instead increasing row index by 2 and using a different int in the cycle call.
+  }
+  public void rotateBackC(){
+    int tempOne = cubeState[1][2];
+    int tempTwo = cubeState[1][3];
+    cubeState[1][2] = cubeState[3][1];
+    cubeState[1][3] = cubeState[2][1];
+    cubeState[3][1] = cubeState[4][2];
+    cubeState[2][1] = cubeState[4][3];
+    cubeState[4][2] = cubeState[3][4];
+    cubeState[4][3] = cubeState[2][4];
+    cubeState[3][4] = tempTwo;
+    cubeState[2][4] = tempOne;
+    this.cycle(5);
+    this.cubeCheck();
+    //this rotate is a bit different as we have to rotate vertically like previous rotates on the 2nd and 5th columns and horizontally on the 2nd and 5th so that all faces turn properly and also cycle is once again called to cycle the front face.
+  }
+  public void rotateFrontC(){
+    int tempOne = cubeState[1][2];
+    int tempTwo = cubeState[1][3];
+    cubeState[1][2] = cubeState[2][4];
+    cubeState[1][3] = cubeState[3][4];
+    cubeState[2][4] = cubeState[4][2];
+    cubeState[3][4] = cubeState[4][3];
+    cubeState[4][2] = cubeState[3][1];
+    cubeState[4][3] = cubeState[2][1];
+    cubeState[3][1] = tempTwo;
+    cubeState[2][1] = tempOne;
+    this.cycle(4);
+    this.cubeCheck();
+  }
+  public void rotateTopCC(){
+    this.rotateBottomC();
+  }
+  public void rotateBottomC(){
+    this.rotateTopCC();
+  }
+  public void rotateLeftCC(){
+    this.rotateRightC();
+  }
+   public void rotateRightCC(){
+    this.rotateLeftC();
+  }
+  public void rotateFrontCC(){
+    this.rotateBackC();
+  }
+  public void rotateBackCC(){
+    this.rotateFrontC();
+  }
+  
+}
