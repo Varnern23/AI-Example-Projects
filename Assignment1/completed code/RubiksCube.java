@@ -78,12 +78,59 @@ Public Class RubiksCube(){
   public boolean checkSolve(){
     int cubeCheck[8][6];
     boolean result = true;
-    for (int i = 0; i < 8; i++){
-        for (int j = 0; j < 6; j++){
-            if (cubeCheck[i][j] != cubeState[i][j]){
-                result = false;
-            }
-        }
+    if (cubeState[0][2] != cubeState[1][2]){
+      result = false;
+    }
+    else if (cubeState[0][2] != cubeState[1][3]){
+      result = false;
+    }
+    else if (cubeState[0][2] != cubeState[0][3]){
+      result = false;
+    }
+    else if (cubeState[2][0] != cubeState[2][1]){
+      result = false;
+    }
+    else if (cubeState[2][0] != cubeState[3][0]){
+      result = false;
+    }
+    else if (cubeState[2][0] != cubeState[3][1]){
+      result = false;
+    }
+    else if (cubeState[2][2] != cubeState[2][3]){
+      result = false;
+    }
+    else if (cubeState[2][2] != cubeState[3][3]){
+      result = false;
+    }
+    else if (cubeState[2][2] != cubeState[3][2]){
+      result = false;
+    }
+    else if (cubeState[2][4] != cubeState[2][5]){
+      result = false;
+    }
+    else if (cubeState[2][4] != cubeState[3][5]){
+      result = false;
+    }
+    else if (cubeState[2][4] != cubeState[3][4]){
+      result = false;
+    }
+    else if (cubeState[4][2] != cubeState[4][3]){
+      result = false;
+    }
+    else if (cubeState[4][2] != cubeState[5][2]){
+      result = false;
+    }
+    else if (cubeState[4][2] != cubeState[5][3]){
+      result = false;
+    }
+    else if (cubeState[6][2] != cubeState[6][3]){
+      result = false;
+    }
+    else if (cubeState[6][2] != cubeState[7][2]){
+      result = false;
+    }
+    else if (cubeState[6][2] != cubeState[7][3]){
+      result = false;
     }
     if (result == true){
         System.out.println("The Cube is Solved!");
