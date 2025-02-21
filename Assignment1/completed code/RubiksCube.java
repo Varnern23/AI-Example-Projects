@@ -15,6 +15,9 @@ Public Class RubiksCube(){
         cubeState[6] = [0, 0, 6, 6, 0, 0];
         cubeState[7] = [0, 0, 6, 6, 0, 0];
   }
+  public int getNumTurn(){
+    return numTurn;
+  }
   public void cycle(int hold){
     //is in charges of cycling the sides that dont actually change any values just rotate them along the same face.
     if (hold == 0){
@@ -23,6 +26,7 @@ Public Class RubiksCube(){
         cubeState[0][3] = cubeState[1][3];
         cubeState[1][3] = cubeState[1][2];
         cubeState[1][2] = temp;
+        numTurn ++;
       // cycles the values representing the face of the cube that is just cycling the same four numbers/colors.
     } 
     else if (hold == 1){
@@ -31,6 +35,7 @@ Public Class RubiksCube(){
         cubeState[4][3] = cubeState[5][3];
         cubeState[5][3] = cubeState[5][2];
         cubeState[5][2] = temp;
+        numTurn ++;
 
     }
     else if (hold == 2){
@@ -39,6 +44,7 @@ Public Class RubiksCube(){
         cubeState[3][0] = cubeState[3][1];
         cubeState[3][1] = cubeState[2][1];
         cubeState[2][1] = temp;
+        numTurn ++;
 
     }
     else if (hold == 3){
@@ -47,6 +53,7 @@ Public Class RubiksCube(){
         cubeState[2][5] = cubeState[3][5];
         cubeState[3][5] = cubeState[3][4];
         cubeState[3][4] = temp;
+        numTurn ++;
 
     }
     else if (hold == 4){
@@ -55,6 +62,7 @@ Public Class RubiksCube(){
         cubeState[2][3] = cubeState[3][3];
         cubeState[3][3] = cubeState[3][2];
         cubeState[3][2] = temp;
+        numTurn ++;
     }
     else if (hold == 5){
         int temp = cubeState[2][2];
@@ -62,6 +70,7 @@ Public Class RubiksCube(){
         cubeState[3][2] = cubeState[3][3];
         cubeState[3][3] = cubeState[2][3];
         cubeState[2][3] = temp;
+        numTurn ++;
 
     }
     // made conditionals depending on which type of the 6 possible turns we make. I mean six by the way because a clockwise turn of the bottom half leads to the same result as a counter clockwise turn on the top half.
@@ -189,6 +198,26 @@ Public Class RubiksCube(){
   }
   public void rotateBackCC(){
     this.rotateFrontC();
+  }
+  public void printCube(){
+    System.out.println("The front:");
+    System.out.println("[" + cubeState[2][2] + "], [" + cubeState[2][3] + "]");
+    System.out.println("[" + cubeState[3][2] + "], [" + cubeState[3][3] + "]");
+    System.out.println("The left:");
+    System.out.println("[" + cubeState[2][0] + "], [" + cubeState[2][1] + "]");
+    System.out.println("[" + cubeState[3][0] + "], [" + cubeState[3][1] + "]");
+    System.out.println("The right:");
+    System.out.println("[" + cubeState[2][4] + "], [" + cubeState[2][5] + "]");
+    System.out.println("[" + cubeState[3][4] + "], [" + cubeState[3][5] + "]");
+    System.out.println("The back:");
+    System.out.println("[" + cubeState[6][2] + "], [" + cubeState[6][3] + "]");
+    System.out.println("[" + cubeState[7][2] + "], [" + cubeState[7][3] + "]");
+    System.out.println("The top:");
+    System.out.println("[" + cubeState[0][2] + "], [" + cubeState[0][3] + "]");
+    System.out.println("[" + cubeState[1][2] + "], [" + cubeState[1][3] + "]");
+    System.out.println("The bottom:");
+    System.out.println("[" + cubeState[4][2] + "], [" + cubeState[4][3] + "]");
+    System.out.println("[" + cubeState[5][2] + "], [" + cubeState[5][3] + "]");
   }
   
 }
