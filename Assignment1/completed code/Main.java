@@ -1,11 +1,13 @@
+ package Rubiks;
   import java.util.Scanner;
-  public class Main {
+  public class main {
             public static void main(String[] args) {
                 RubiksCube cubert = new RubiksCube();
+                cubert.initializeCube();
                 Scanner reader = new Scanner(System.in);
                 int temp;
                 System.out.println("Here's a rubiks cube have a blast!");
-                while(cubert.getNumTurn() == 0 || cubert.checkSolve() == false){
+                while(cubert.getNumTurn() == 0 || cubert.cubeCheck() == false){
                     cubert.printCube();
                     temp = 0;
                     System.out.println("would you like to turn the front(1), back(2), left(3), right(4), top(5), or the bottom(6)?");
@@ -15,10 +17,10 @@
                         System.out.println("would you like to turn it clockwise(7) or counter clockwise(8)?");
                         tempt = reader.nextInt();
                         if (tempt == 7){
-                            cubert.rotateFrontC();
+                            cubert.rotateFrontCC();
                         }
                         else {
-                            cubert.rotateFrontCC();
+                            cubert.rotateFrontC();
                         }
                     }
                      if (temp == 2){
