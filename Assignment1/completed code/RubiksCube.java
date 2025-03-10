@@ -1,19 +1,22 @@
+package Rubiks;
 //Nathan Varner so and so
 import static java.lang.Math.*;
-Public Class RubiksCube(){
-  public int cubeState[8][6];
+
+import java.util.Random;
+public class RubiksCube{
+  public int[][] cubeState = new int [8][6];
   //This is a pretty brute force way of jandling this prompt that sacrifices scalability for efficiency. aka leet code answers that you go was that really neccesary when you coulda just used a loop but they are still in the top 1% of time efficency but on a lower scale.
   public int numTurn = 0;
   public void initializeCube(){
     //creates the cube model and gives it values
-        cubeState[0] = [0, 0, 1, 1, 0, 0];
-        cubeState[1] = [0, 0, 1, 1, 0, 0];
-        cubeState[2] = [2, 2, 3, 3, 4, 4];
-        cubeState[3] = [2, 2, 3, 3, 4, 4];
-        cubeState[4] = [0, 0, 5, 5, 0, 0];
-        cubeState[5] = [0, 0, 5, 5, 0, 0];
-        cubeState[6] = [0, 0, 6, 6, 0, 0];
-        cubeState[7] = [0, 0, 6, 6, 0, 0];
+        cubeState[0] = new int[] {0, 0, 1, 1, 0, 0};
+        cubeState[1] = new int[] {0, 0, 1, 1, 0, 0};
+        cubeState[2] = new int[] {2, 2, 3, 3, 4, 4};
+        cubeState[3] = new int[] {2, 2, 3, 3, 4, 4};
+        cubeState[4] = new int[] {0, 0, 5, 5, 0, 0};
+        cubeState[5] = new int[] {0, 0, 5, 5, 0, 0};
+        cubeState[6] = new int[] {0, 0, 6, 6, 0, 0};
+        cubeState[7] = new int[] {0, 0, 6, 6, 0, 0};
   }
   public int getNumTurn(){
     return numTurn;
@@ -75,8 +78,8 @@ Public Class RubiksCube(){
     }
     // made conditionals depending on which type of the 6 possible turns we make. I mean six by the way because a clockwise turn of the bottom half leads to the same result as a counter clockwise turn on the top half.
   }
-  public boolean checkSolve(){
-    int cubeCheck[8][6];
+  public boolean cubeCheck(){
+    int[][] cubeCheck = new int[8][6];
     boolean result = true;
     if (cubeState[0][2] != cubeState[1][2]){
       result = false;
@@ -213,7 +216,7 @@ Public Class RubiksCube(){
     this.cubeCheck();
     //this rotate is a bit different as we have to rotate vertically like previous rotates on the 2nd and 5th columns and horizontally on the 2nd and 5th so that all faces turn properly and also cycle is once again called to cycle the front face.
   }
-//pretty self explanatory stuff theres 6 rotation types and all of them were brute forced.
+        //pretty self explanatory stuff theres 6 rotation types and all of them were brute forced.
   public void rotateFrontC(){
     int tempOne = cubeState[1][2];
     int tempTwo = cubeState[1][3];
@@ -231,7 +234,7 @@ Public Class RubiksCube(){
   public void rotateTopCC(){
     this.rotateBottomC();
   }
-  public void rotateBottomC(){
+  public void rotateBottomCC(){
     this.rotateTopCC();
   }
   public void rotateLeftCC(){
@@ -266,5 +269,32 @@ Public Class RubiksCube(){
     System.out.println("[" + cubeState[4][2] + "], [" + cubeState[4][3] + "]");
     System.out.println("[" + cubeState[5][2] + "], [" + cubeState[5][3] + "]");
   }
+  private void applyMove(int move) {
+    switch (move) {
+        case 0 -> rotateTopC();
+        case 1 -> rotateBottomC();
+        case 2 -> rotateLeftC();
+        case 3 -> rotateRightC();
+        case 4 -> rotateFrontC();
+        case 5 -> rotateBackC();
+        case 6 -> rotateTopCC();
+        case 7 -> rotateBottomCC();
+        case 8 -> rotateLeftCC();
+        case 9 -> rotateRightCC();
+        case 10 -> rotateFrontCC();
+        case 11 -> rotateBackCC();
+        default -> System.out.println("Invalid move");
+    }
+}
+  public void scramble(int numMoves) {
+    Random rand = new Random();
+    int[] moves = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    for (int i = 0; i < numMoves; i++) {
+        int move;
+        move = moves[rand.nextInt(moves.length)];  // Pick a random move
+        applyMove(move);  // Execute the move
+    }
+    System.out.println("Cube scrambled with " + numMoves + " moves.");
+}
   
 }
