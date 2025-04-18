@@ -1,0 +1,1 @@
+Hey this program solves an alphadoku style puzzle by using the SAT solver from A3 and turning an alphadoku puzzle into a cnf file which it then reads so just lettin ya know if ya run it a random file named alphadoku.cnf will probaly pop up.  
