@@ -9,8 +9,8 @@
 // structures and some related functions
 
 typedef struct {
-    int *literals;  // Array of literals in clause
-    int size;       // Number of literals
+    int *literals; 
+    int size;       
 } Clause;
 
 typedef struct {
