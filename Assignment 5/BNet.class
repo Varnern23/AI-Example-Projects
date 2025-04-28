@@ -1,0 +1,186 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+public class BNet {
+   List<BNet$Variable> vars = new ArrayList();
+
+   public BNet() {
+      BNet$Variable var1 = new BNet$Variable("B", List.of());
+      var1.cpt.put(Map.of(), 0.001);
+      BNet$Variable var2 = new BNet$Variable("E", List.of());
+      var2.cpt.put(Map.of(), 0.002);
+      BNet$Variable var3 = new BNet$Variable("A", List.of("B", "E"));
+      var3.cpt.put(Map.of("B", true, "E", true), 0.95);
+      var3.cpt.put(Map.of("B", true, "E", false), 0.94);
+      var3.cpt.put(Map.of("B", false, "E", true), 0.29);
+      var3.cpt.put(Map.of("B", false, "E", false), 0.001);
+      BNet$Variable var4 = new BNet$Variable("J", List.of("A"));
+      var4.cpt.put(Map.of("A", true), 0.9);
+      var4.cpt.put(Map.of("A", false), 0.05);
+      BNet$Variable var5 = new BNet$Variable("M", List.of("A"));
+      var5.cpt.put(Map.of("A", true), 0.7);
+      var5.cpt.put(Map.of("A", false), 0.01);
+      this.vars.add(var1);
+      this.vars.add(var2);
+      this.vars.add(var3);
+      this.vars.add(var4);
+      this.vars.add(var5);
+   }
+
+   public Map<Boolean, Double> enumerationAsk(String var1, Map<String, Boolean> var2) {
+      HashMap var3 = new HashMap();
+      Iterator var4 = List.of(true, false).iterator();
+
+      while(var4.hasNext()) {
+         boolean var5 = (Boolean)var4.next();
+         HashMap var6 = new HashMap(var2);
+         var6.put(var1, var5);
+         var3.put(var5, this.enumerateAll(this.vars, var6));
+      }
+
+      double var7 = 1.0 / ((Double)var3.get(true) + (Double)var3.get(false));
+      var3.put(true, (Double)var3.get(true) * var7);
+      var3.put(false, (Double)var3.get(false) * var7);
+      return var3;
+   }
+
+   private double enumerateAll(List<BNet$Variable> var1, Map<String, Boolean> var2) {
+      if (var1.isEmpty()) {
+         return 1.0;
+      } else {
+         BNet$Variable var3 = (BNet$Variable)var1.get(0);
+         List var4 = var1.subList(1, var1.size());
+         double var5;
+         if (var2.containsKey(var3.name)) {
+            var5 = var3.getProbability((Boolean)var2.get(var3.name), var2);
+            return var5 * this.enumerateAll(var4, var2);
+         } else {
+            var5 = 0.0;
+
+            boolean var8;
+            HashMap var9;
+            for(Iterator var7 = List.of(true, false).iterator(); var7.hasNext(); var5 += var3.getProbability(var8, var2) * this.enumerateAll(var4, var9)) {
+               var8 = (Boolean)var7.next();
+               var9 = new HashMap(var2);
+               var9.put(var3.name, var8);
+            }
+
+            return var5;
+         }
+      }
+   }
+
+   public Map<Boolean, Double> rejectionSampling(String var1, Map<String, Boolean> var2, int var3) {
+      int var4 = 0;
+      int var5 = 0;
+      Random var6 = new Random();
+
+      for(int var7 = 0; var7 < var3; ++var7) {
+         Map var8 = this.priorSample(var6);
+         if (this.consistent(var8, var2)) {
+            ++var5;
+            if ((Boolean)var8.get(var1)) {
+               ++var4;
+            }
+         }
+      }
+
+      double var11 = var5 > 0 ? (double)var4 / (double)var5 : 0.0;
+      double var9 = 1.0 - var11;
+      return Map.of(true, var11, false, var9);
+   }
+
+   private Map<String, Boolean> priorSample(Random var1) {
+      HashMap var2 = new HashMap();
+      Iterator var3 = this.vars.iterator();
+
+      while(var3.hasNext()) {
+         BNet$Variable var4 = (BNet$Variable)var3.next();
+         double var5 = var4.getProbability(true, var2);
+         var2.put(var4.name, var1.nextDouble() < var5);
+      }
+
+      return var2;
+   }
+
+   private boolean consistent(Map<String, Boolean> var1, Map<String, Boolean> var2) {
+      Iterator var3 = var2.entrySet().iterator();
+
+      Map.Entry var4;
+      do {
+         if (!var3.hasNext()) {
+            return true;
+         }
+
+         var4 = (Map.Entry)var3.next();
+      } while(((Boolean)var1.get(var4.getKey())).equals(var4.getValue()));
+
+      return false;
+   }
+
+   public static void main(String[] var0) {
+      if (var0.length < 1) {
+         System.err.println("Usage: java BNet <Qvars> [given <Evars>]");
+         System.exit(1);
+      }
+
+      ArrayList var1 = new ArrayList();
+      HashMap var2 = new HashMap();
+      boolean var3 = false;
+
+      String var5;
+      for(int var4 = 0; var4 < var0.length; ++var4) {
+         var5 = var0[var4];
+         if (var5.equalsIgnoreCase("given")) {
+            var3 = true;
+         } else {
+            String var6 = var5.substring(0, 1);
+            boolean var7 = var5.charAt(1) == 't';
+            String var10000;
+            switch (var6) {
+               case "B":
+                  var10000 = "B";
+                  break;
+               case "E":
+                  var10000 = "E";
+                  break;
+               case "A":
+                  var10000 = "A";
+                  break;
+               case "J":
+                  var10000 = "J";
+                  break;
+               case "M":
+                  var10000 = "M";
+                  break;
+               default:
+                  throw new IllegalArgumentException("Unknown var: " + var6);
+            }
+
+            String var8 = var10000;
+            if (!var3) {
+               var1.add(var8);
+            } else {
+               var2.put(var8, var7);
+            }
+         }
+      }
+
+      BNet var11 = new BNet();
+      if (var1.size() != 1) {
+         System.err.println("This implementation supports exactly one query variable at a time.");
+         System.exit(1);
+      }
+
+      var5 = (String)var1.get(0);
+      Map var12 = var11.enumerationAsk(var5, var2);
+      System.out.printf("Exact P(%s=true | evidence) = %.5f\n", var5, var12.get(true));
+      Map var13 = var11.rejectionSampling(var5, var2, 10000);
+      System.out.printf("Rejection Sampling P(%s=true | evidence) ≈ %.5f\n", var5, var13.get(true));
+   }
+}
