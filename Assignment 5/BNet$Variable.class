@@ -1,0 +1,30 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+class BNet$Variable {
+   String name;
+   List<String> parents;
+   Map<Map<String, Boolean>, Double> cpt;
+
+   BNet$Variable(String var1, List<String> var2) {
+      this.name = var1;
+      this.parents = var2;
+      this.cpt = new HashMap();
+   }
+
+   double getProbability(boolean var1, Map<String, Boolean> var2) {
+      HashMap var3 = new HashMap();
+      Iterator var4 = this.parents.iterator();
+
+      while(var4.hasNext()) {
+         String var5 = (String)var4.next();
+         var3.put(var5, (Boolean)var2.get(var5));
+      }
+
+      double var6 = (Double)this.cpt.get(var3);
+      return var1 ? var6 : 1.0 - var6;
+   }
+}
